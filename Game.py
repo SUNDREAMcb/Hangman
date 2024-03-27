@@ -18,16 +18,14 @@ the difference between the terminal and the command window...?
 3.13 - Class for players. able to give each specific difficulty lives counter
 3.14 - Win Streak is not increasing beyond 1.
 3.15 - Player class should handle win streak, current difficulty, name.
-I feel stumped. Need to simplify some things and be sure i know how i want each object to be called.
-3.16 - afraid i wouldn't be able to get back to where i was -  I solved most of the
-problems I was shooting for. Class handles player lives, difficulty(indirect) and tracks win streak.
+Need to simplify some things and be sure how each object should be called.
+3.16 - afraid i wouldn't be able to get back to where i was -  I solved most of the problems I was shooting for. 
+Class handles player lives, difficulty(indirect) and tracks win streak.
 3.17 - I didnt have any ideas.
 3.18 - I want to add an input so user can quit altogether, choose a different difficulty "Quit" should quit the game,
 "Choose Difficulty" should exit current loop and go to former loop. Right now we have each Part of the game, but how we
 make it a functioning system is to build out the body.
-3.24 -
-Alright, i improved it and then broke it. lives  pull from a dict of keys, using that
-key list to display difficulty. I think the getword is also broken as a result. Something in the create player function.
+3.24 - Alright, i improved it and then broke it. lives  pull from a dict of keys, using that key list to display difficulty.
 3.27 - exceptionhandling. Game functions again! I'm able to focus on working on details. Now i want to select a difficulty mid game.
 """
 import random
