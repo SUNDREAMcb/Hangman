@@ -1,24 +1,5 @@
-"""
-APRIL 2024 - [ PACKAGE into PYGAME ]
-* Quit = Quit out entirely, need to get back into game if i want.
-* Change Difficulty after game = Once you win or lose, can change difficulty.
-* Suggested Difficulty Change = Once you win 5 times in a row, have game suggest next hardest difficulty.
-* Package Game = not satisfied with the body of the code, kind of vague
-* Words should not repeat = instead of a random choice from a list, maybe it will be shuffled randomly, then queued.
-- iteration
-- loop nesting/alts
-- deque
-- enumeration
-- map()
-* 4.13 - Game runs smoothly within terminal without error - Word is chosen from massive list.
- Depending on length of word, the difficulty of the word itself is displayed.
 
-"""
-import random, randomword, pygame
-
-##pygame window surface settings
-WIDTH, HEIGHT = 900, 500
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+import random, randomword
 
 class Player:
     playing = True
