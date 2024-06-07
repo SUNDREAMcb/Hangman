@@ -1,0 +1,139 @@
+"""
+APRIL 2024 - [ PACKAGE into PYGAME ]
+* Quit = Quit out entirely, need to get back into game if i want.
+* Change Difficulty after game = Once you win or lose, can change difficulty.
+* Suggested Difficulty Change = Once you win 5 times in a row, have game suggest next hardest difficulty.
+* Package Game = not satisfied with the body of the code, kind of vague
+* Words should not repeat = instead of a random choice from a list, maybe it will be shuffled randomly, then queued.
+- iteration
+- loop nesting/alts
+- deque
+- enumeration
+- map()
+* 4.13 - Game runs smoothly within terminal without error - Word is chosen from massive list.
+ Depending on length of word, the difficulty of the word itself is displayed.
+
+"""
+import random, randomword, pygame
+
+##pygame window surface settings
+WIDTH, HEIGHT = 900, 500
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+class Player:
+    playing = True
+    difficulty_dict = {'test': 100, 'easy': 20, 'normal': 10, 'hard': 5}
+    difficulty_list = list(difficulty_dict.keys())
+
+    def __init__(self, lives, playing=True, win_streak=0):
+        self.lives = lives
+        self.playing = playing
+        self.win_streak = win_streak
+
+
+def set_difficulty():
+    """set amt of lives"""
+    username = input("What is your name?: ")
+
+    print(*Player.difficulty_list)
+    choice = input("Which difficulty do you choose? ").lower()
+    try:
+        if choice.lower() in Player.difficulty_list:
+            lives = Player.difficulty_dict[choice]
+            print(f"{username}, You have {lives} mistakes available!")
+            return lives
+        else:
+            print(f"Sorry, {choice} mode not available.")
+            return set_difficulty()
+    except Exception as err:
+        print(err)
+
+
+def create_player():
+    player = Player(set_difficulty())
+    return player
+
+def get_word():
+    "randomly generate word using randomword module, determine difficulty of word based off length"
+    word = randomword.get_random_word()
+    if len(word) <= 3:
+        print("This one should be easy")
+        return word
+    if 8 >= len(word) > 3:
+        print("This one is somewhat difficult")
+        return word
+    if len(word) > 8:
+        print("This word is longer, therefore harder. Good Luck")
+        return word
+
+
+def hangman():  # main loop,
+    """create hangman game ruleset"""
+    user = create_player()
+    hangman_word = get_word()
+    max_attempts = user.lives
+    incorrect_guesses = 0
+    guessed_letters = []
+    display_word = ['_' if letter.isalpha() else letter for letter in hangman_word]
+    print(" ".join(display_word))
+    print("You can enter a letter to guess, or type 'help' to view status, or 'quit' to quit.")
+    while '_' in display_word and incorrect_guesses < max_attempts:
+        guess = input(": ").lower()
+        if guess.isalpha() and guess not in guessed_letters and len(guess) == 1:
+            guessed_letters.append(guess)
+            if guess in hangman_word:
+                for index, letter in enumerate(hangman_word):
+                    if letter == guess:
+                        display_word[index] = guess
+                        print("Good Job!")
+                        print(" ".join(display_word))
+            else:
+                incorrect_guesses += 1
+                print(f"Incorrect. You've made {incorrect_guesses} out of {max_attempts} remaining attempts. ")
+        elif guess.isalpha() and guess == 'quit':
+            print("Oh, you want to Quit. Okay. ")
+            break
+        elif guess.isalpha() and guess == 'help':
+            print(" ".join(display_word))
+            print(guessed_letters," are the letters you have guessed.")
+        else:
+            print("That is not a valid input.")
+    if '_' not in display_word:
+        print("Congratulations! ")
+        winnersays = input("Do you want to play again?: ( Yes / No ) ")
+        if winnersays.lower() == 'yes':
+            user.win_streak += 1
+            print(f"You have won {user.win_streak} games so far!")
+            hangman()
+        elif winnersays.lower() == 'no':
+            Player.playing = False
+            return
+        else:
+            print("That is not a valid input")
+    else:
+        print("GAME OVER!")
+        losersays = input("New Game?: ( Yes / No )")
+        if losersays.lower() == 'yes':
+            user.win_streak = 0
+            hangman()
+        elif losersays.lower() == 'no':
+            Player.playing = False
+            return
+        else:
+            print("That is not a valid input")
+
+
+
+# body of the code
+
+def main():
+    run = True
+    while run:
+        print("Welcome to Hangman Game. ")
+        hangman()
+        run = False
+        print("Goodbye! Thank you. ")
+
+
+if __name__ == "__main__":
+    main()
